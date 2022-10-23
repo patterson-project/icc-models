@@ -1,0 +1,33 @@
+name: Push Models to NPM
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+      - bug/*
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pypy-push:
+    name: Build and Push npm Package
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies and build 🔧
+        run: cd ts-icc && npm ci && npm run build
+      - name: Publish package on NPM 📦
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

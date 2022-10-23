@@ -1,0 +1,21 @@
+name: Push Models to PyPi
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+      - bug/*
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pypy-push:
+    name: Build and Push Package
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build

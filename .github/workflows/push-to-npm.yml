@@ -1,4 +1,4 @@
-name: Push Models to NPM
+name: Push Models to npm 
 
 on:
   push:

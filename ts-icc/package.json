@@ -1,6 +1,6 @@
 {
   "name": "@canadrian72/icc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Ts library with ICC DTOs and more",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

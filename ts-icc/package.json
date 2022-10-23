@@ -1,5 +1,5 @@
 {
-  "name": "icc",
+  "name": "@patterson-project/icc",
   "version": "0.0.1",
   "description": "Ts library with ICC DTOs and more",
   "main": "dist/index.js",

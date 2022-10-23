@@ -15,5 +15,8 @@
   "dependencies": {
     "global": "^4.4.0",
     "typescipt": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

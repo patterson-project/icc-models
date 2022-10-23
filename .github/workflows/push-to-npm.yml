@@ -28,6 +28,6 @@ jobs:
       - name: Install dependencies and build 🔧
         run: cd ts-icc && npm ci && npm run build
       - name: Publish package on NPM 📦
-        run: npm publish
+        run: cd ts-icc && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

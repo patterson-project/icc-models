@@ -28,7 +28,7 @@ class PydanticObjectId(ObjectId):
 
 ENCODERS_BY_TYPE[PydanticObjectId] = str
 
-""" Requests """
+""" Request DTOs """
 
 
 class LightingRequest(BaseModel):
@@ -58,6 +58,20 @@ class PowerRequest(BaseModel):
     target: Optional[PydanticObjectId]
     name: Optional[str]
     operation: str
+
+    def to_json(self):
+        return jsonable_encoder(self, exclude_none=True)
+
+    def to_bson(self):
+        data = self.dict(by_alias=True, exclude_none=True)
+        if data.get("_id") is None:
+            data.pop("_id", None)
+        return data
+
+
+class SceneRequest(BaseModel):
+    name: str
+    date: datetime = datetime.utcnow().isoformat()
 
     def to_json(self):
         return jsonable_encoder(self, exclude_none=True)

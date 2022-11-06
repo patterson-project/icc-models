@@ -1,7 +1,7 @@
 from setuptools import setup
 
 README = """
-Home automation models, packaged to prevent code duplication throughout microservices.
+Home automation data models, packaged to prevent code duplication throughout microservices.
 """
 
 setup(name='python-icc',

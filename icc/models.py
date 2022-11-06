@@ -134,3 +134,16 @@ class Scene(BaseModel):
         if data.get("_id") is None:
             data.pop("_id", None)
         return data
+
+
+""" IoT Devices Global Strings """
+
+
+class LightingDeviceTypes:
+    KasaBulb: str = "Kasa Bulb"
+    CustomLedStrip: str = "Custom Led Strip"
+    KasaLedStrip: str = "Kasa Led Strip"
+
+
+class PowerDeviceTypes:
+    KasaPlug: str = "Kasa Plug"

@@ -1,14 +1,19 @@
-from typing import Optional
 from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel, Field
-from bson import ObjectId
 from fastapi.encoders import jsonable_encoder
+from bson import ObjectId
 
 
-class LightingRequest(BaseModel):
+class LightingRequestModel(BaseModel):
     id: Optional[ObjectId] = Field(None, alias="_id")
     target: str
     operation: str
+    h: int = 0
+    s: int = 100
+    v: int = 50
+    brightness: int = None
+    temperature: int = None
     date: datetime = datetime.utcnow().isoformat()
 
     def to_json(self):
@@ -19,19 +24,3 @@ class LightingRequest(BaseModel):
         if data.get("_id") is None:
             data.pop("_id", None)
         return data
-
-
-class HsvRequest(LightingRequest):
-    brightness: Optional[int]
-    h: int = 0
-    s: int = 100
-    v: int = 50
-
-
-class BrightnessRequest(LightingRequest):
-    brightness: int
-
-
-class TemperatureRequest(LightingRequest):
-    brightness: Optional[int]
-    temperature: str

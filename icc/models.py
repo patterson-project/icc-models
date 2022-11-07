@@ -6,6 +6,9 @@ from bson import ObjectId
 from pydantic.json import ENCODERS_BY_TYPE
 
 
+""" Model Groundwork """
+
+
 class PydanticObjectId(ObjectId):
     """
     Object Id field. Compatible with Pydantic.
@@ -28,10 +31,22 @@ class PydanticObjectId(ObjectId):
 
 ENCODERS_BY_TYPE[PydanticObjectId] = str
 
+
+class IccBaseModel(BaseModel):
+    def to_json(self):
+        return jsonable_encoder(self, exclude_none=True)
+
+    def to_bson(self):
+        data = self.dict(by_alias=True, exclude_none=True)
+        if data.get("_id") is None:
+            data.pop("_id", None)
+        return data
+
+
 """ Request DTOs """
 
 
-class LightingRequest(BaseModel):
+class LightingRequest(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     target: Optional[PydanticObjectId]
     name: Optional[str]
@@ -43,97 +58,49 @@ class LightingRequest(BaseModel):
     temperature: int = None
     date: datetime = datetime.utcnow().isoformat()
 
-    def to_json(self):
-        return jsonable_encoder(self, exclude_none=True)
 
-    def to_bson(self):
-        data = self.dict(by_alias=True, exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id", None)
-        return data
-
-
-class PowerRequest(BaseModel):
+class PowerRequest(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     target: Optional[PydanticObjectId]
     name: Optional[str]
     operation: str
 
-    def to_json(self):
-        return jsonable_encoder(self, exclude_none=True)
 
-    def to_bson(self):
-        data = self.dict(by_alias=True, exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id", None)
-        return data
-
-
-class SceneRequest(BaseModel):
+class SceneRequest(IccBaseModel):
     name: str
     date: datetime = datetime.utcnow().isoformat()
 
-    def to_json(self):
-        return jsonable_encoder(self, exclude_none=True)
 
-    def to_bson(self):
-        data = self.dict(by_alias=True, exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id", None)
-        return data
+class ChromecastRequest(IccBaseModel):
+    id: Optional[PydanticObjectId] = Field(None, alias="_id")
+    target: PydanticObjectId
+    path: str
 
 
 """ Entities """
 
 
-class Device(BaseModel):
+class Device(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
     type: str
     model: str
     ip: str
 
-    def to_json(self):
-        return jsonable_encoder(self, exclude_none=True)
 
-    def to_bson(self):
-        data = self.dict(by_alias=True, exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id", None)
-        return data
-
-
-class State(BaseModel):
+class State(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     device: PydanticObjectId
     state: bool
     date: datetime = datetime.utcnow()
 
-    def to_json(self):
-        return jsonable_encoder(self, exclude_none=True)
 
-    def to_bson(self):
-        data = self.dict(by_alias=True, exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id", None)
-        return data
-
-
-class Scene(BaseModel):
+class Scene(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
     lighting_requests: Optional[list[LightingRequest]]
     power_requests: Optional[list[PowerRequest]]
     date: datetime = datetime.utcnow().isoformat()
-
-    def to_json(self):
-        return jsonable_encoder(self, exclude_none=True)
-
-    def to_bson(self):
-        data = self.dict(by_alias=True, exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id", None)
-        return data
 
 
 """ IoT Devices Global Strings """

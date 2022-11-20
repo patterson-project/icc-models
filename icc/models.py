@@ -77,7 +77,31 @@ class ChromecastRequest(IccBaseModel):
     path: str
 
 
-""" Entities """
+""" DTOs """
+
+
+class CreateLightingRequestDto(IccBaseModel):
+    target_id: str
+    operation: str
+    h: int = 0
+    s: int = 100
+    v: int = 50
+    brightness: int = None
+    temperature: int = None
+
+
+class CreatePowerRequestDto(IccBaseModel):
+    target_id: str
+    operation: str
+
+
+class CreateSceneDto(IccBaseModel):
+    name: str
+    lighting_requests: Optional[list[CreateLightingRequestDto]]
+    power_requests: Optional[list[CreatePowerRequestDto]]
+
+
+""" Entitity Models """
 
 
 class Device(IccBaseModel):
@@ -95,12 +119,11 @@ class State(IccBaseModel):
     date: datetime = datetime.utcnow()
 
 
-class Scene(IccBaseModel):
+class SceneModel(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
     lighting_requests: Optional[list[LightingRequest]]
     power_requests: Optional[list[PowerRequest]]
-    date: datetime = datetime.utcnow().isoformat()
 
 
 """ IoT Devices Global Strings """

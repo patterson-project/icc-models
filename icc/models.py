@@ -122,8 +122,8 @@ class State(IccBaseModel):
 class SceneModel(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
-    lighting_requests: Optional[list[LightingRequest]]
-    power_requests: Optional[list[PowerRequest]]
+    lighting_requests: Optional[list[CreateLightingRequestDto]]
+    power_requests: Optional[list[CreatePowerRequestDto]]
 
 
 """ IoT Devices Global Strings """
@@ -137,3 +137,29 @@ class LightingDeviceTypes:
 
 class PowerDeviceTypes:
     KasaPlug: str = "Kasa Plug"
+
+
+class DisplayDeviceTypes:
+    Chromecast: str = "Chromecast"
+
+
+class ServiceUrls:
+    LIGHTING_SERVICE_URL = "http://.default.svc.cluster.local:8000"
+    POWER_SERVICE_URL = "http://power-service-cluster-ip.default.svc.cluster.local:8000"
+    SCENE_SERVICE_URL = "http://scene-service-cluster-ip.default.svc.cluster.local:8000"
+    DEVICE_SERVICE_URL = "http://device-service-cluster-ip.default.svc.cluster.local:8000"
+    DISPLAY_SERVICE_URL = "http://display-service-cluster-ip.default.svc.cluster.local:8000"
+    MEDIA_DRIVE_SERVICE_URL = "http://media-drive-service-cluster-ip.default.svc.cluster.local:8000"
+    CHROMECAST_CONTROLLER_URL = "http://chromecast-controller-cluster-ip.default.svc.cluster.local:8000"
+    KASA_LED_STRIP_CONTROLLER_URL = "http://kasa-led-strip-controller-cluster-ip.default.svc.cluster.local:8000"
+    KASA_BULB_CONTROLLER_URL = "http://kasa-bulb-controller-cluster-ip.default.svc.cluster.local:8000"
+    KASA_PLUG_CONTROLLER_URL = "http://kasa-plug-controller-cluster-ip.default.svc.cluster.local:8000"
+
+
+class DeviceControllerProxy:
+    device_type_to_url = {
+        LightingDeviceTypes.KasaBulb: ServiceUrls.KASA_BULB_CONTROLLER_URL,
+        LightingDeviceTypes.KasaLedStrip: ServiceUrls.KASA_LED_STRIP_CONTROLLER_URL,
+        PowerDeviceTypes.KasaPlug: ServiceUrls.KASA_PLUG_CONTROLLER_URL,
+        DisplayDeviceTypes.Chromecast: ServiceUrls.CHROMECAST_CONTROLLER_URL
+    }

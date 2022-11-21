@@ -77,11 +77,11 @@ class ChromecastRequest(IccBaseModel):
     path: str
 
 
-""" DTOs """
+""" Create DTOs """
 
 
 class CreateLightingRequestDto(IccBaseModel):
-    target_id: str
+    target_id: PydanticObjectId
     operation: str
     h: int = 0
     s: int = 100
@@ -91,7 +91,7 @@ class CreateLightingRequestDto(IccBaseModel):
 
 
 class CreatePowerRequestDto(IccBaseModel):
-    target_id: str
+    target_id: PydanticObjectId
     operation: str
 
 

@@ -157,7 +157,7 @@ class ServiceUrls:
 
 
 class DeviceControllerProxy:
-    device_type_to_url = {
+    device_model_to_url = {
         LightingDeviceTypes.KasaBulb: ServiceUrls.KASA_BULB_CONTROLLER_URL,
         LightingDeviceTypes.KasaLedStrip: ServiceUrls.KASA_LED_STRIP_CONTROLLER_URL,
         PowerDeviceTypes.KasaPlug: ServiceUrls.KASA_PLUG_CONTROLLER_URL,

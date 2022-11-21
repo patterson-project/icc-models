@@ -66,7 +66,7 @@ class PowerRequest(IccBaseModel):
     operation: str
 
 
-class SceneRequest(IccBaseModel):
+class SceneRequestDto(IccBaseModel):
     name: str
     date: datetime = datetime.utcnow().isoformat()
 

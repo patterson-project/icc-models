@@ -83,11 +83,11 @@ class ChromecastRequest(IccBaseModel):
 class LightingRequestDto(IccBaseModel):
     target_id: PydanticObjectId
     operation: str
-    h: int = 0
-    s: int = 100
-    v: int = 50
-    brightness: int = None
-    temperature: int = None
+    h: int | None
+    s: int | None
+    v: int | None
+    brightness: int | None
+    temperature: int | None
 
 
 class PowerRequestDto(IccBaseModel):

@@ -80,7 +80,7 @@ class ChromecastRequest(IccBaseModel):
 """ Create DTOs """
 
 
-class CreateLightingRequestDto(IccBaseModel):
+class LightingRequestDto(IccBaseModel):
     target_id: PydanticObjectId
     operation: str
     h: int = 0
@@ -90,15 +90,15 @@ class CreateLightingRequestDto(IccBaseModel):
     temperature: int = None
 
 
-class CreatePowerRequestDto(IccBaseModel):
+class PowerRequestDto(IccBaseModel):
     target_id: PydanticObjectId
     operation: str
 
 
-class CreateSceneDto(IccBaseModel):
+class SceneDto(IccBaseModel):
     name: str
-    lighting_requests: Optional[list[CreateLightingRequestDto]]
-    power_requests: Optional[list[CreatePowerRequestDto]]
+    lighting_requests: Optional[list[LightingRequestDto]]
+    power_requests: Optional[list[PowerRequestDto]]
 
 
 """ Entitity Models """
@@ -122,8 +122,8 @@ class State(IccBaseModel):
 class SceneModel(IccBaseModel):
     id: Optional[PydanticObjectId] = Field(None, alias="_id")
     name: str
-    lighting_requests: Optional[list[CreateLightingRequestDto]]
-    power_requests: Optional[list[CreatePowerRequestDto]]
+    lighting_requests: Optional[list[LightingRequestDto]]
+    power_requests: Optional[list[PowerRequestDto]]
 
 
 """ IoT Devices Global Strings """

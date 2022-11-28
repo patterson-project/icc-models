@@ -101,6 +101,14 @@ class SceneDto(IccBaseModel):
     power_requests: Optional[list[PowerRequestDto]]
 
 
+class DeviceDto(IccBaseModel):
+    name: str
+    room: str
+    ip: str
+    type: str
+    model: str
+
+
 """ Entitity Models """
 
 
@@ -120,10 +128,19 @@ class State(IccBaseModel):
 
 
 class SceneModel(IccBaseModel):
-    id: Optional[PydanticObjectId] = Field(None, alias="_id")
+    id: PydanticObjectId = Field(None, alias="_id")
     name: str
     lighting_requests: Optional[list[LightingRequestDto]]
     power_requests: Optional[list[PowerRequestDto]]
+
+
+class DeviceModel(IccBaseModel):
+    id: PydanticObjectId = Field(None, alias="_id")
+    name: str
+    room: str
+    ip: str
+    type: str
+    model: str
 
 
 """ IoT Devices Global Strings """

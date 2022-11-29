@@ -141,7 +141,7 @@ class DeviceDto(IccBaseModel):
     name: str
     room: str
     ip: str
-    type: str
+    type: LightingDeviceType | PowerDeviceType | DisplayDeviceType
     model: str
 
 

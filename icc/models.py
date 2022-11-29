@@ -6,6 +6,44 @@ from bson import ObjectId
 from pydantic.json import ENCODERS_BY_TYPE
 from enum import Enum
 
+""" IoT Devices Global Strings """
+
+
+class LightingDeviceType(Enum):
+    KasaBulb: str = "Kasa Bulb"
+    CustomLedStrip: str = "Custom Led Strip"
+    KasaLedStrip: str = "Kasa Led Strip"
+
+
+class PowerDeviceType(Enum):
+    KasaPlug: str = "Kasa Plug"
+
+
+class DisplayDeviceType(Enum):
+    Chromecast: str = "Chromecast"
+
+
+class ServiceUrls(Enum):
+    LIGHTING_SERVICE_URL = "http://.default.svc.cluster.local:8000"
+    POWER_SERVICE_URL = "http://power-service-cluster-ip.default.svc.cluster.local:8000"
+    SCENE_SERVICE_URL = "http://scene-service-cluster-ip.default.svc.cluster.local:8000"
+    DEVICE_SERVICE_URL = "http://device-service-cluster-ip.default.svc.cluster.local:8000"
+    DISPLAY_SERVICE_URL = "http://display-service-cluster-ip.default.svc.cluster.local:8000"
+    MEDIA_DRIVE_SERVICE_URL = "http://media-drive-service-cluster-ip.default.svc.cluster.local:8000"
+    CHROMECAST_CONTROLLER_URL = "http://chromecast-controller-cluster-ip.default.svc.cluster.local:8000"
+    KASA_LED_STRIP_CONTROLLER_URL = "http://kasa-led-strip-controller-cluster-ip.default.svc.cluster.local:8000"
+    KASA_BULB_CONTROLLER_URL = "http://kasa-bulb-controller-cluster-ip.default.svc.cluster.local:8000"
+    KASA_PLUG_CONTROLLER_URL = "http://kasa-plug-controller-cluster-ip.default.svc.cluster.local:8000"
+
+
+class DeviceControllerProxy:
+    device_model_to_url = {
+        LightingDeviceType.KasaBulb: ServiceUrls.KASA_BULB_CONTROLLER_URL,
+        LightingDeviceType.KasaLedStrip: ServiceUrls.KASA_LED_STRIP_CONTROLLER_URL,
+        PowerDeviceType.KasaPlug: ServiceUrls.KASA_PLUG_CONTROLLER_URL,
+        DisplayDeviceType.Chromecast: ServiceUrls.CHROMECAST_CONTROLLER_URL
+    }
+
 
 """ Model Groundwork """
 
@@ -44,7 +82,7 @@ class IccBaseModel(BaseModel):
         return data
 
 
-""" Request DTOs """
+""" DTOs """
 
 
 class LightingRequest(IccBaseModel):
@@ -78,9 +116,6 @@ class ChromecastRequest(IccBaseModel):
     path: str
 
 
-""" Create DTOs """
-
-
 class LightingRequestDto(IccBaseModel):
     target_id: PydanticObjectId
     operation: str
@@ -108,6 +143,10 @@ class DeviceDto(IccBaseModel):
     ip: str
     type: str
     model: str
+
+
+class RoomDto(IccBaseModel):
+    name: str
 
 
 """ Entitity Models """
@@ -140,44 +179,10 @@ class DeviceModel(IccBaseModel):
     name: str
     room: str
     ip: str
-    type: str
+    type: LightingDeviceType | PowerDeviceType | DisplayDeviceType
     model: str
 
 
-""" IoT Devices Global Strings """
-
-
-class LightingDeviceTypes(Enum):
-    KasaBulb: str = "Kasa Bulb"
-    CustomLedStrip: str = "Custom Led Strip"
-    KasaLedStrip: str = "Kasa Led Strip"
-
-
-class PowerDeviceTypes(Enum):
-    KasaPlug: str = "Kasa Plug"
-
-
-class DisplayDeviceTypes(Enum):
-    Chromecast: str = "Chromecast"
-
-
-class ServiceUrls(Enum):
-    LIGHTING_SERVICE_URL = "http://.default.svc.cluster.local:8000"
-    POWER_SERVICE_URL = "http://power-service-cluster-ip.default.svc.cluster.local:8000"
-    SCENE_SERVICE_URL = "http://scene-service-cluster-ip.default.svc.cluster.local:8000"
-    DEVICE_SERVICE_URL = "http://device-service-cluster-ip.default.svc.cluster.local:8000"
-    DISPLAY_SERVICE_URL = "http://display-service-cluster-ip.default.svc.cluster.local:8000"
-    MEDIA_DRIVE_SERVICE_URL = "http://media-drive-service-cluster-ip.default.svc.cluster.local:8000"
-    CHROMECAST_CONTROLLER_URL = "http://chromecast-controller-cluster-ip.default.svc.cluster.local:8000"
-    KASA_LED_STRIP_CONTROLLER_URL = "http://kasa-led-strip-controller-cluster-ip.default.svc.cluster.local:8000"
-    KASA_BULB_CONTROLLER_URL = "http://kasa-bulb-controller-cluster-ip.default.svc.cluster.local:8000"
-    KASA_PLUG_CONTROLLER_URL = "http://kasa-plug-controller-cluster-ip.default.svc.cluster.local:8000"
-
-
-class DeviceControllerProxy:
-    device_model_to_url = {
-        LightingDeviceTypes.KasaBulb: ServiceUrls.KASA_BULB_CONTROLLER_URL,
-        LightingDeviceTypes.KasaLedStrip: ServiceUrls.KASA_LED_STRIP_CONTROLLER_URL,
-        PowerDeviceTypes.KasaPlug: ServiceUrls.KASA_PLUG_CONTROLLER_URL,
-        DisplayDeviceTypes.Chromecast: ServiceUrls.CHROMECAST_CONTROLLER_URL
-    }
+class RoomModel(IccBaseModel):
+    id: PydanticObjectId = Field(None, alias="_id")
+    name: str

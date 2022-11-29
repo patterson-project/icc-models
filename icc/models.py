@@ -36,6 +36,11 @@ class ServiceUrls(Enum):
     KASA_PLUG_CONTROLLER_URL = "http://kasa-plug-controller-cluster-ip.default.svc.cluster.local:8000"
 
 
+class State(Enum):
+    ON = "On",
+    OFF = "Off"
+
+
 class DeviceControllerProxy:
     device_model_to_url = {
         LightingDeviceType.KasaBulb: ServiceUrls.KASA_BULB_CONTROLLER_URL,
@@ -180,6 +185,7 @@ class DeviceModel(IccBaseModel):
     room: str
     ip: str
     type: LightingDeviceType | PowerDeviceType | DisplayDeviceType
+    state: State
     model: str
 
 

@@ -4,6 +4,7 @@ from pydantic import BaseModel, Field
 from fastapi.encoders import jsonable_encoder
 from bson import ObjectId
 from pydantic.json import ENCODERS_BY_TYPE
+from enum import Enum
 
 
 """ Model Groundwork """
@@ -146,21 +147,21 @@ class DeviceModel(IccBaseModel):
 """ IoT Devices Global Strings """
 
 
-class LightingDeviceTypes:
+class LightingDeviceTypes(Enum):
     KasaBulb: str = "Kasa Bulb"
     CustomLedStrip: str = "Custom Led Strip"
     KasaLedStrip: str = "Kasa Led Strip"
 
 
-class PowerDeviceTypes:
+class PowerDeviceTypes(Enum):
     KasaPlug: str = "Kasa Plug"
 
 
-class DisplayDeviceTypes:
+class DisplayDeviceTypes(Enum):
     Chromecast: str = "Chromecast"
 
 
-class ServiceUrls:
+class ServiceUrls(Enum):
     LIGHTING_SERVICE_URL = "http://.default.svc.cluster.local:8000"
     POWER_SERVICE_URL = "http://power-service-cluster-ip.default.svc.cluster.local:8000"
     SCENE_SERVICE_URL = "http://scene-service-cluster-ip.default.svc.cluster.local:8000"

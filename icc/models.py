@@ -6,7 +6,7 @@ from bson import ObjectId
 from pydantic.json import ENCODERS_BY_TYPE
 from enum import Enum
 
-""" IoT Devices Global Strings """
+""" Enums and global dicts """
 
 
 class LightingDeviceType(Enum):
@@ -34,11 +34,6 @@ class ServiceUrls(Enum):
     KASA_LED_STRIP_CONTROLLER_URL = "http://kasa-led-strip-controller-cluster-ip.default.svc.cluster.local:8000"
     KASA_BULB_CONTROLLER_URL = "http://kasa-bulb-controller-cluster-ip.default.svc.cluster.local:8000"
     KASA_PLUG_CONTROLLER_URL = "http://kasa-plug-controller-cluster-ip.default.svc.cluster.local:8000"
-
-
-class State(Enum):
-    ON = "On",
-    OFF = "Off"
 
 
 class DeviceControllerProxy:
@@ -144,14 +139,9 @@ class SceneDto(IccBaseModel):
 
 class DeviceDto(IccBaseModel):
     name: str
-    room: PydanticObjectId
     ip: str
     type: LightingDeviceType | PowerDeviceType | DisplayDeviceType
     model: str
-
-
-class RoomDto(IccBaseModel):
-    name: str
 
 
 """ Entitity Models """
@@ -182,13 +172,7 @@ class SceneModel(IccBaseModel):
 class DeviceModel(IccBaseModel):
     id: PydanticObjectId = Field(None, alias="_id")
     name: str
-    room: PydanticObjectId
     ip: str
     type: LightingDeviceType | PowerDeviceType | DisplayDeviceType
     state: State
     model: str
-
-
-class RoomModel(IccBaseModel):
-    id: PydanticObjectId = Field(None, alias="_id")
-    name: str

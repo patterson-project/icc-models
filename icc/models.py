@@ -139,7 +139,7 @@ class SceneDto(IccBaseModel):
 class DeviceDto(IccBaseModel):
     name: str
     ip: str
-    type: LightingDeviceType | PowerDeviceType | DisplayDeviceType
+    type: str
     model: str
 
 
@@ -172,6 +172,6 @@ class DeviceModel(IccBaseModel):
     id: PydanticObjectId = Field(None, alias="_id")
     name: str
     ip: str
-    type: LightingDeviceType | PowerDeviceType | DisplayDeviceType
+    type: str
     state: State
     model: str

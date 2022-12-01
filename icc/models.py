@@ -4,26 +4,25 @@ from pydantic import BaseModel, Field
 from fastapi.encoders import jsonable_encoder
 from bson import ObjectId
 from pydantic.json import ENCODERS_BY_TYPE
-from enum import Enum
 
 """ Enums and global dicts """
 
 
-class LightingDeviceType(Enum):
+class LightingDeviceType:
     KasaBulb: str = "Kasa Bulb"
     CustomLedStrip: str = "Custom Led Strip"
     KasaLedStrip: str = "Kasa Led Strip"
 
 
-class PowerDeviceType(Enum):
+class PowerDeviceType:
     KasaPlug: str = "Kasa Plug"
 
 
-class DisplayDeviceType(Enum):
+class DisplayDeviceType:
     Chromecast: str = "Chromecast"
 
 
-class ServiceUrls(Enum):
+class ServiceUrls:
     LIGHTING_SERVICE_URL = "http://.default.svc.cluster.local:8000"
     POWER_SERVICE_URL = "http://power-service-cluster-ip.default.svc.cluster.local:8000"
     SCENE_SERVICE_URL = "http://scene-service-cluster-ip.default.svc.cluster.local:8000"

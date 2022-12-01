@@ -5,7 +5,49 @@ from fastapi.encoders import jsonable_encoder
 from bson import ObjectId
 from pydantic.json import ENCODERS_BY_TYPE
 
+""" Model Groundwork """
+
+
+class PydanticObjectId(ObjectId):
+    """
+    Object Id field. Compatible with Pydantic.
+    """
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        return PydanticObjectId(v)
+
+    @classmethod
+    def __modify_schema__(cls, field_schema: dict):
+        field_schema.update(
+            type="string",
+        )
+
+
+ENCODERS_BY_TYPE[PydanticObjectId] = str
+
+
+class IccBaseModel(BaseModel):
+    def to_json(self):
+        return jsonable_encoder(self, exclude_none=True)
+
+    def to_bson(self):
+        data = self.dict(by_alias=True, exclude_none=True)
+        if data.get("_id") is None:
+            data.pop("_id", None)
+        return data
+
+
 """ Enums and global dicts """
+
+
+class DeviceType:
+    Lighting: str = "Lighting"
+    Power: str = "Power"
 
 
 class LightingDeviceType:
@@ -42,43 +84,6 @@ class DeviceControllerProxy:
         PowerDeviceType.KasaPlug: ServiceUrls.KASA_PLUG_CONTROLLER_URL,
         DisplayDeviceType.Chromecast: ServiceUrls.CHROMECAST_CONTROLLER_URL
     }
-
-
-""" Model Groundwork """
-
-
-class PydanticObjectId(ObjectId):
-    """
-    Object Id field. Compatible with Pydantic.
-    """
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        return PydanticObjectId(v)
-
-    @classmethod
-    def __modify_schema__(cls, field_schema: dict):
-        field_schema.update(
-            type="string",
-        )
-
-
-ENCODERS_BY_TYPE[PydanticObjectId] = str
-
-
-class IccBaseModel(BaseModel):
-    def to_json(self):
-        return jsonable_encoder(self, exclude_none=True)
-
-    def to_bson(self):
-        data = self.dict(by_alias=True, exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id", None)
-        return data
 
 
 """ DTOs """
@@ -154,13 +159,6 @@ class Device(IccBaseModel):
     ip: str
 
 
-class State(IccBaseModel):
-    id: Optional[PydanticObjectId] = Field(None, alias="_id")
-    device: PydanticObjectId
-    state: bool
-    date: datetime = datetime.utcnow()
-
-
 class SceneModel(IccBaseModel):
     id: PydanticObjectId = Field(None, alias="_id")
     name: str
@@ -173,5 +171,4 @@ class DeviceModel(IccBaseModel):
     name: str
     ip: str
     type: str
-    state: State
     model: str

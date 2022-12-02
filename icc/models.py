@@ -111,7 +111,6 @@ class PowerRequest(IccBaseModel):
 
 class SceneRequestDto(IccBaseModel):
     name: str
-    date: datetime = datetime.utcnow().isoformat()
 
 
 class ChromecastRequest(IccBaseModel):
@@ -146,6 +145,25 @@ class DeviceDto(IccBaseModel):
     ip: str
     type: str
     model: str
+
+
+""" Analytics Record Models """
+
+
+class LightingRequestRecord(IccBaseModel):
+    target_id: PydanticObjectId
+    operation: str
+    h: int | None
+    s: int | None
+    v: int | None
+    brightness: int | None
+    temperature: int | None
+    time: str
+
+
+class SceneRequestRecord(IccBaseModel):
+    name: str
+    time: str
 
 
 """ Entitity Models """

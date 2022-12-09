@@ -19,7 +19,10 @@ class PydanticObjectId(ObjectId):
 
     @classmethod
     def validate(cls, v):
-        return PydanticObjectId(v)
+        try:
+            return ObjectId(str(v))
+        except:
+            raise ValueError("Invalid ID")
 
     @classmethod
     def __modify_schema__(cls, field_schema: dict):
@@ -68,13 +71,27 @@ class ServiceUrls:
     LIGHTING_SERVICE_URL = "http://.default.svc.cluster.local:8000"
     POWER_SERVICE_URL = "http://power-service-cluster-ip.default.svc.cluster.local:8000"
     SCENE_SERVICE_URL = "http://scene-service-cluster-ip.default.svc.cluster.local:8000"
-    DEVICE_SERVICE_URL = "http://device-service-cluster-ip.default.svc.cluster.local:8000"
-    DISPLAY_SERVICE_URL = "http://display-service-cluster-ip.default.svc.cluster.local:8000"
-    MEDIA_DRIVE_SERVICE_URL = "http://media-drive-service-cluster-ip.default.svc.cluster.local:8000"
-    CHROMECAST_CONTROLLER_URL = "http://chromecast-controller-cluster-ip.default.svc.cluster.local:8000"
-    KASA_LED_STRIP_CONTROLLER_URL = "http://kasa-led-strip-controller-cluster-ip.default.svc.cluster.local:8000"
-    KASA_BULB_CONTROLLER_URL = "http://kasa-bulb-controller-cluster-ip.default.svc.cluster.local:8000"
-    KASA_PLUG_CONTROLLER_URL = "http://kasa-plug-controller-cluster-ip.default.svc.cluster.local:8000"
+    DEVICE_SERVICE_URL = (
+        "http://device-service-cluster-ip.default.svc.cluster.local:8000"
+    )
+    DISPLAY_SERVICE_URL = (
+        "http://display-service-cluster-ip.default.svc.cluster.local:8000"
+    )
+    MEDIA_DRIVE_SERVICE_URL = (
+        "http://media-drive-service-cluster-ip.default.svc.cluster.local:8000"
+    )
+    CHROMECAST_CONTROLLER_URL = (
+        "http://chromecast-controller-cluster-ip.default.svc.cluster.local:8000"
+    )
+    KASA_LED_STRIP_CONTROLLER_URL = (
+        "http://kasa-led-strip-controller-cluster-ip.default.svc.cluster.local:8000"
+    )
+    KASA_BULB_CONTROLLER_URL = (
+        "http://kasa-bulb-controller-cluster-ip.default.svc.cluster.local:8000"
+    )
+    KASA_PLUG_CONTROLLER_URL = (
+        "http://kasa-plug-controller-cluster-ip.default.svc.cluster.local:8000"
+    )
 
 
 class DeviceControllerProxy:
@@ -82,7 +99,7 @@ class DeviceControllerProxy:
         LightingDeviceType.KasaBulb: ServiceUrls.KASA_BULB_CONTROLLER_URL,
         LightingDeviceType.KasaLedStrip: ServiceUrls.KASA_LED_STRIP_CONTROLLER_URL,
         PowerDeviceType.KasaPlug: ServiceUrls.KASA_PLUG_CONTROLLER_URL,
-        DisplayDeviceType.Chromecast: ServiceUrls.CHROMECAST_CONTROLLER_URL
+        DisplayDeviceType.Chromecast: ServiceUrls.CHROMECAST_CONTROLLER_URL,
     }
 
 
@@ -163,6 +180,12 @@ class LightingRequestRecord(IccBaseModel):
 
 class SceneRequestRecord(IccBaseModel):
     name: str
+    time: str
+
+
+class PowerRequestRecord(IccBaseModel):
+    target_id: PydanticObjectId
+    operation: str
     time: str
 
 

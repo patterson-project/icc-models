@@ -20,7 +20,7 @@ class PydanticObjectId(ObjectId):
     @classmethod
     def validate(cls, v):
         try:
-            return ObjectId(str(v))
+            return PydanticObjectId(v)
         except:
             raise ValueError("Invalid ID")
 

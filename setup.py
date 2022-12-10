@@ -6,7 +6,7 @@ Home automation data models, packaged to prevent code duplication throughout mic
 
 setup(
     name="python-icc",
-    version="0.0.26",
+    version="0.0.27",
     long_description_content_type="text/markdown",
     long_description=README,
     description="IoT Control Center home automation project packages",
